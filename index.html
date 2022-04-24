@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue JS</title>
+    <style>       
+        ul li {
+            list-style: none;
+        }
+        .done {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+        <form action="" v-on:submit.prevent="addItem">
+            <input type="text" v-model="newItem" >
+            <button type="submit" :disabled="newItem.length === 0 " >Add Item</button>
+        </form>
+
+        <ul>
+            <li v-for='todo, index in todos'>
+                <input type="checkbox" v-model="todo.completed" > 
+                <span :class="{'done': todo.completed}"> {{todo.text}} </span>
+                <button @click="deleteItem(index)" v-if="todo.completed">Delete</button>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="./vue.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            message: 'Vue Todo List',
+            newItem:'',
+            todos:[
+                {text:'Shopping',completed:true},
+                {text:'Buy Book',completed:false},
+            ]
+        },
+        methods: {
+            addItem(){
+                //this.todos.push(this.newItem);
+                // this.todos = [...this.todos,this.newItem];
+                let item = {
+                    text: this.newItem,
+                    completed:false
+                }
+
+                this.todos = [...this.todos, item];                
+                this.newItem='';
+            },
+            deleteItem(index){
+                this.todos.splice(index,1);
+            }
+        }
+    })
+</script>
+</html>
